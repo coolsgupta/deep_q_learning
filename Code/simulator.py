@@ -8,14 +8,14 @@ import numpy as np
 
 class simulator(object):
 
-    def __init__(self, agent, env = "CartPole-v1", algo = "DQN", log_metrics=False, testing = False, max_episodes):
+    def __init__(self, agent, env = "CartPole-v1", algo = "DQN", log_metrics=True, max_episodes = 1000):
         # creating the environment
         self.env = gym.make(env)
         self.state_size = env.observation_space.shape[0]
         self.action_size = env.action_space.n
         self.done = False
         self.episode = 0;
-        self.testing = testing
+        self.testing = False
         self.reward = 0;
         self.agent = agent
         self.EPISODES = max_episodes
@@ -30,7 +30,7 @@ class simulator(object):
             self.log_writer = csv.DictWriter(self.log_file, fieldnames=self.log_fields)
             self.log_writer.writeheader()
 
-    def run(self, tolerance=0.05, n_test=0,):
+    def run(self, tolerance=0.05, n_test=0):
         # runs a simulation of the environment
         for e in self.EPISODES:
             state = self.env.reset()
@@ -63,4 +63,4 @@ class simulator(object):
                     })
                     break;
 
-        self.agent.train_with_episode_experience
+        self.agent.train_with_episode_experience()

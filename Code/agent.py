@@ -5,7 +5,7 @@ class Agent(object):
         '''
         :param model: 0 = table based q learning model
                       1 = deep q learning - Deep neural network model
-                      2 = deep q learning - Convolutional neural network model
+                      2 = deep q learning - Convolution neural network model
         '''
         self.model = models(model)
 

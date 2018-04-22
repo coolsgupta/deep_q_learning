@@ -11,8 +11,10 @@ class models(object):
             self.Q_learning_model()
         elif model == 1:
             self.DQN_DNN()
-        else:
+        elif model == 2:
             self.DQN_CNN()
+        else:
+            print ("Invalid model number")
 
     def Q_learning_model(self):
 

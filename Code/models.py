@@ -17,7 +17,15 @@ class models(object):
             print ("Invalid model number")
 
     def Q_learning_model(self):
+        return
 
     def DQN_DNN(self):
+        model = Sequential()
+        model.add(Dense(32, input_shape=state_size, activation='relu'))
+        model.add(Dense(64, activation='relu'))
+        model.add(Dense(action_size, activation='linear'))
+        model.summary()
+        return
 
     def DQN_CNN(self):
+        return

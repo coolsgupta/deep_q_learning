@@ -6,6 +6,7 @@ env = gym.make('CartPole-v1')
 fieldnames = ['episode', 'epsilon', 'score', 'average_score', 'total_reward', 'average_reward']
 result_random_guessing = open('test_results_random_guessing.csv','w',newline='')
 writer = csv.DictWriter(result_random_guessing,fieldnames)
+writer.writeheader()
 cumulative_reward = 0
 cumulative_score = 0
 for e in range(50):

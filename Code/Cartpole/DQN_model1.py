@@ -7,7 +7,7 @@ from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
 import csv
-EPISODES = 1000
+EPISODES = 500
 
 
 class DQNAgent:
@@ -75,13 +75,17 @@ done = False
 batch_size = 32
 # Iterate the game
 #storing results
-result_csv = open('results_DQN_model_1.csv','w+')
-result_writer = csv.DictWriter(result_csv, ['episode', 'score', 'epsilon'])
+result_csv = open('results_DQN_model_1.csv','w',newline='')
+fieldnames = ['episode', 'epsilon', 'score', 'average_score', 'total_reward', 'average_reward']
+result_writer = csv.DictWriter(result_csv, fieldnames)
 result_writer.writeheader()
+cummulative_score = 0
+cummulative_reward = 0
 for e in range(EPISODES):
     # reset state in the beginning of each game
     state = env.reset()
     state = np.reshape(state, [1, state_size])
+    total_reward = 0
     # time_t represents each frame of the game
     # Our goal is to keep the pole upright as long as possible until score of 500
     # the more time_t the more score
@@ -96,6 +100,7 @@ for e in range(EPISODES):
         # Reward is 1 for every frame the pole survived
         next_state, reward, done, _ = env.step(action)
         reward = reward if not done else -10
+        total_reward += reward
         next_state = np.reshape(next_state, [1, state_size])
 
         # Remember the previous state, action, reward, and done
@@ -107,12 +112,63 @@ for e in range(EPISODES):
         # done becomes True when the game ends
         # ex) The agent drops the pole
         if done:
-            # print the score and break out of the loop
+            # print and store the metrics and break out of the loop
+            cummulative_reward += total_reward
+            average_reward = cummulative_reward/(e+1)
+            cummulative_score += time
+            average_score = cummulative_score/(e+1)
             print("episode: {}/{}, score: {}, e: {:.2}"
                   .format(e, EPISODES, time, agent.epsilon))
-            result_writer.writerow({'episode':e, 'score':time, 'epsilon':agent.epsilon})
+            result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':time,'average_score':average_score,
+                                    'total_reward': total_reward, 'average_reward':average_reward})
             break
 
     if len(agent.memory) > batch_size:
         # train the agent with the experience of the episode
         agent.replay(batch_size)
+
+# testing trials
+print("///////////TESTING/////////")
+agent.epsilon = 0.0
+cummulative_score = 0
+cummulative_reward = 0
+test_results = open('test_results_DQN_model1.csv', 'w',newline='')
+result_writer = csv.DictWriter(test_results,fieldnames)
+result_writer.writeheader()
+for e in range(50):
+    state = env.reset()
+    state = np.reshape(state, [1, state_size])
+    total_reward = 0
+    # time_t represents each frame of the game
+    # Our goal is to keep the pole upright as long as possible until score of 500
+    # the more time_t the more score
+    for time in range(500):
+        # for GUI
+        # env.render()
+
+        # Decide action
+        action = agent.act(state)
+
+        # Advance the game to the next frame based on the action.
+        # Reward is 1 for every frame the pole survived
+        next_state, reward, done, _ = env.step(action)
+        reward = reward if not done else -10
+        total_reward += reward
+        next_state = np.reshape(next_state, [1, state_size])
+
+        # make next_state the new current state for the next frame.
+        state = next_state
+
+        # done becomes True when the game ends
+        # ex) The agent drops the pole
+        if done:
+            # print and store the metrics and break out of the loop
+            cummulative_reward += total_reward
+            average_reward = cummulative_reward / (e+1)
+            cummulative_score += time
+            average_score = cummulative_score / (e+1)
+            print("episode: {}/{}, score: {}, e: {:.2}"
+                  .format(e, EPISODES, time, agent.epsilon))
+            result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':time,'average_score':average_score,
+                                    'total_reward': total_reward, 'average_reward':average_reward})
+            break

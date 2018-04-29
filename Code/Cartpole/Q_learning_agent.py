@@ -7,6 +7,7 @@ import json
 EPISODES = 1000
 import matplotlib.pyplot as plt
 import csv
+import numpy as np
 
 
 class DQNAgent:
@@ -99,10 +100,13 @@ done = False
 batch_size = 32
 scores = []
 #storing results
-result_file = open('results.txt','w+')
-result_csv = open('results_Q_cartpole.csv', 'w+')
-result_writer = csv.DictWriter(result_csv, ['episode', 'score', 'epsilon'])
+result_file = open('results_Q_cartpole.txt','w')
+result_csv = open('results_Q_cartpole.csv', 'w',newline='')
+fieldnames = ['episode', 'epsilon', 'score', 'average_score', 'total_reward', 'average_reward']
+result_writer = csv.DictWriter(result_csv, fieldnames)
 result_writer.writeheader()
+cummulative_score = 0
+cummulative_reward = 0
 
 # Iterate the game
 agent.episode = 1
@@ -110,6 +114,7 @@ agent.episode = 1
 while agent.epsilon > agent.epsilon_min:
     # reset state in the beginning of each game
     state = agent.build_state(env.reset())
+    total_reward = 0
     # time_t represents each frame of the game
     # Our goal is to keep the pole upright as long as possible until score of 500
     # the more time_t the more score
@@ -127,6 +132,7 @@ while agent.epsilon > agent.epsilon_min:
         # Reward is 1 for every frame the pole survived
         next_state, reward, done, _ = env.step(action)
         reward = reward if not done else -10
+        total_reward += reward
         next_state = agent.build_state(next_state)
 
         # Remember the previous state, action, reward, and done
@@ -142,26 +148,67 @@ while agent.epsilon > agent.epsilon_min:
         if done:
             scores.append(time)
             # print the score and break out of the loop
+            cummulative_reward += total_reward
+            average_reward = cummulative_reward / (agent.episode + 1)
+            cummulative_score += time
+            average_score = cummulative_score / (agent.episode + 1)
             print("episode: {}/{}, score: {}, e: {:.2}"
                   .format(agent.episode, EPISODES, time, agent.epsilon))
             result = ('Episode :', str(agent.episode), ' score:',str(time), ' epsilon:', str(agent.epsilon),'\n')
             result_file.write(''.join(result))
-            result_writer.writerow({'episode': agent.episode , 'score' : time , 'epsilon' : agent.epsilon})
+            result_writer.writerow(
+                {'episode': agent.episode, 'epsilon': agent.epsilon, 'score': time, 'average_score': average_score,
+                 'total_reward': total_reward, 'average_reward': average_reward})
 
             break
 
     agent.replay()
-
-plt.xlabel('Epsiode number')
-plt.ylabel('Average score per episode')
-average_scores = []
-sum = 0
-for x in range(len(scores)):
-    sum += scores[x]
-    average_scores.append(sum/(x+1))
-plt.plot(range((agent.episode-1)), average_scores)
+# store Q_table as txt in json format
 agent.Q_table = {'Q_table': agent.Q_table}
-with open('Q_table.txt', 'w+') as Q_table_file:
+with open('Q_table_Q_cartpole.txt', 'w+') as Q_table_file:
     Q_table_file.write(json.dumps(agent.Q_table))
-#evaluate.average_score_per_episode(agent.episode, scores)
-#evaluate.total_score(agent.episode, scores)
+
+# testing trials
+print("///////////TESTING/////////")
+agent.epsilon = 0.0
+cummulative_score = 0
+cummulative_reward = 0
+test_results = open('test_results_Q_learning_agent.csv', 'w',newline='')
+test_result_writer = csv.DictWriter(test_results,fieldnames)
+test_result_writer.writeheader()
+for e in range(50):
+    state = agent.build_state(env.reset())
+    total_reward = 0
+    # time_t represents each frame of the game
+    # Our goal is to keep the pole upright as long as possible until score of 500
+    # the more time_t the more score
+    for time in range(500):
+        # for GUI
+        # env.render()
+
+        # Decide action
+        action = agent.choose_action(state)
+
+        # Advance the game to the next frame based on the action.
+        # Reward is 1 for every frame the pole survived
+        next_state, reward, done, _ = env.step(action)
+        reward = reward if not done else -10
+        total_reward += reward
+        next_state = agent.build_state(next_state)
+
+        # make next_state the new current state for the next frame.
+        state = next_state
+
+        # done becomes True when the game ends
+        # ex) The agent drops the pole
+        if done:
+            # print and store the metrics and break out of the loop
+            cummulative_reward += total_reward
+            average_reward = cummulative_reward / (e+1)
+            cummulative_score += time
+            average_score = cummulative_score / (e+1)
+            print("episode: {}/{}, score: {}, e: {:.2}"
+                  .format(e, EPISODES, time, agent.epsilon))
+            test_result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':time,'average_score':average_score,
+                                    'total_reward': total_reward, 'average_reward':average_reward})
+            break

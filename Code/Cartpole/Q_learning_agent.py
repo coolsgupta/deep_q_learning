@@ -19,8 +19,8 @@ class DQNAgent:
         self.gamma = 0.95    # discount rate
         self.epsilon = 1.0  # exploration rate
         self.epsilon_min = 0.01
-        self.epsilon_decay = 0.995
-        self.learning_rate = 0.001
+        self.epsilon_decay = 0.9995
+        self.learning_rate = 0.01
         self.t = 0
         self.learning = True
         self.episode = 0
@@ -32,7 +32,8 @@ class DQNAgent:
             self.epsilon = 0.0
             self.learning_rate = 0.0
         else:
-            self.epsilon = math.exp(-self.learning_rate * (self.episode))
+            #self.epsilon = math.exp(-self.learning_rate * (self.episode))
+            self.epsilon *= self.epsilon_decay
 
     def build_state(self, observed_state):
         state = (str(observed_state[0]),str(observed_state[1]),str(observed_state[2]),str(observed_state[3]))
@@ -152,8 +153,8 @@ while agent.epsilon > agent.epsilon_min:
             average_reward = cummulative_reward / (agent.episode + 1)
             cummulative_score += time
             average_score = cummulative_score / (agent.episode + 1)
-            print("episode: {}/{}, score: {}, e: {:.2}"
-                  .format(agent.episode, EPISODES, time, agent.epsilon))
+            print("episode: {}, score: {}, e: {:.2}"
+                  .format(agent.episode, time, agent.epsilon))
             result = ('Episode :', str(agent.episode), ' score:',str(time), ' epsilon:', str(agent.epsilon),'\n')
             result_file.write(''.join(result))
             result_writer.writerow(
@@ -207,8 +208,8 @@ for e in range(50):
             average_reward = cummulative_reward / (e+1)
             cummulative_score += time
             average_score = cummulative_score / (e+1)
-            print("episode: {}/{}, score: {}, e: {:.2}"
-                  .format(e, EPISODES, time, agent.epsilon))
+            print("episode: {}, score: {}, e: {:.2}"
+                  .format(e, time, agent.epsilon))
             test_result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':time,'average_score':average_score,
                                     'total_reward': total_reward, 'average_reward':average_reward})
             break

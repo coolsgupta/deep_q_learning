@@ -6,6 +6,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
+import csv
 EPISODES = 1000
 
 
@@ -73,6 +74,10 @@ agent = DQNAgent(state_size, action_size)
 done = False
 batch_size = 32
 # Iterate the game
+#storing results
+result_csv = open('results_DQN_model_1.csv','w+')
+result_writer = csv.DictWriter(result_csv, ['episode', 'score', 'epsilon'])
+result_writer.writeheader()
 for e in range(EPISODES):
     # reset state in the beginning of each game
     state = env.reset()
@@ -82,7 +87,7 @@ for e in range(EPISODES):
     # the more time_t the more score
     for time in range(500):
         #for GUI
-        env.render()
+        #env.render()
 
         #Decide action
         action = agent.act(state)
@@ -105,6 +110,7 @@ for e in range(EPISODES):
             # print the score and break out of the loop
             print("episode: {}/{}, score: {}, e: {:.2}"
                   .format(e, EPISODES, time, agent.epsilon))
+            result_writer.writerow({'episode':e, 'score':time, 'epsilon':agent.epsilon})
             break
 
     if len(agent.memory) > batch_size:

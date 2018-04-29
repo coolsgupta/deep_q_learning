@@ -6,6 +6,7 @@ import math
 import json
 EPISODES = 1000
 import matplotlib.pyplot as plt
+import csv
 
 
 class DQNAgent:
@@ -97,7 +98,12 @@ agent = DQNAgent(state_size, action_size)
 done = False
 batch_size = 32
 scores = []
+#storing results
 result_file = open('results.txt','w+')
+result_csv = open('results_Q_cartpole.csv', 'w+')
+result_writer = csv.DictWriter(result_csv, ['episode', 'score', 'epsilon'])
+result_writer.writeheader()
+
 # Iterate the game
 agent.episode = 1
 
@@ -140,9 +146,12 @@ while agent.epsilon > agent.epsilon_min:
                   .format(agent.episode, EPISODES, time, agent.epsilon))
             result = ('Episode :', str(agent.episode), ' score:',str(time), ' epsilon:', str(agent.epsilon),'\n')
             result_file.write(''.join(result))
+            result_writer.writerow({'episode': agent.episode , 'score' : time , 'epsilon' : agent.epsilon})
 
             break
+
     agent.replay()
+
 plt.xlabel('Epsiode number')
 plt.ylabel('Average score per episode')
 average_scores = []

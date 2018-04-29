@@ -2,15 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a52aed5-09ad-4dfe-ac61-b476dcd5803e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Code/Cartpole/DQN_model1.py" afterPath="$PROJECT_DIR$/Code/Cartpole/DQN_model1.py" />
-      <change beforePath="$PROJECT_DIR$/Code/Cartpole/DQN_model2.py" afterPath="$PROJECT_DIR$/Code/Cartpole/DQN_model2.py" />
-      <change beforePath="$PROJECT_DIR$/Code/Cartpole/Q_learning_agent.py" afterPath="$PROJECT_DIR$/Code/Cartpole/Q_learning_agent.py" />
-      <change beforePath="$PROJECT_DIR$/Code/Cartpole/Q_table.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Code/Cartpole/results.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Code/Cartpole/results_DQN_model_1.csv" afterPath="$PROJECT_DIR$/Code/Cartpole/results_DQN_model_1.csv" />
-      <change beforePath="$PROJECT_DIR$/Code/Cartpole/results_DQN_model_2.csv" afterPath="$PROJECT_DIR$/Code/Cartpole/results_DQN_model_2.csv" />
-      <change beforePath="$PROJECT_DIR$/Code/Cartpole/results_Q_cartpole.csv" afterPath="$PROJECT_DIR$/Code/Cartpole/results_Q_cartpole.csv" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Code/Cartpole/saved_results/Q_table_Q_cartpole.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Code/Cartpole/saved_results/results_DQN_model_1.csv" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Code/Cartpole/saved_results/results_DQN_model_2.csv" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Code/Cartpole/saved_results/results_Q_cartpole.csv" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Code/Cartpole/saved_results/results_Q_cartpole.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Code/Cartpole/saved_results/test_results_DQN_model1.csv" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Code/Cartpole/saved_results/test_results_DQN_model_2.csv" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Code/Cartpole/saved_results/test_results_Q_learning_agent.csv" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,7 +24,7 @@
         <entry file="file://$PROJECT_DIR$/Code/Cartpole/DQN_model1.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3150">
-              <caret line="150" column="0" lean-forward="true" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
+              <caret line="150" column="0" lean-forward="false" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -120,6 +119,13 @@
             <path>
               <item name="deep_q_learning" type="b2602c69:ProjectViewProjectNode" />
               <item name="deep_q_learning" type="462c0819:PsiDirectoryNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
+              <item name="Cartpole" type="462c0819:PsiDirectoryNode" />
+              <item name="saved_results" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="deep_q_learning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="deep_q_learning" type="462c0819:PsiDirectoryNode" />
               <item name="Docs" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -135,6 +141,9 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\programming\deep_q_learning\Code\Cartpole\saved_results" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\programming\deep_q_learning\Code" />
       <recent name="D:\programming\deep_q_learning\Docs" />
@@ -170,9 +179,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1932" height="1038" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24986738" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24986738" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -204,7 +212,7 @@
         <state relative-caret-position="3192">
           <caret line="157" column="44" lean-forward="false" selection-start-line="157" selection-start-column="44" selection-end-line="157" selection-end-column="44" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -234,7 +242,7 @@
         <state relative-caret-position="3192">
           <caret line="157" column="44" lean-forward="false" selection-start-line="157" selection-start-column="44" selection-end-line="157" selection-end-column="44" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -527,7 +535,7 @@
         <state relative-caret-position="3332">
           <caret line="208" column="49" lean-forward="false" selection-start-line="208" selection-start-column="49" selection-end-line="208" selection-end-column="49" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -535,10 +543,18 @@
     <entry file="file://$PROJECT_DIR$/Code/Cartpole/DQN_model1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3150">
-          <caret line="150" column="0" lean-forward="true" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
+          <caret line="150" column="0" lean-forward="false" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Code/Cartpole/saved_results/Q_table_Q_cartpole.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

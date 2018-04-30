@@ -141,6 +141,7 @@ for e in range(50):
     state = env.reset()
     state = np.reshape(state, [1, state_size])
     total_reward = 0
+    score = state[0][0]
     # time_t represents each frame of the game
     # Our goal is to keep the pole upright as long as possible until score of 500
     # the more time_t the more score

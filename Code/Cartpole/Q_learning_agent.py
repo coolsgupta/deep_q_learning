@@ -24,6 +24,7 @@ class DQNAgent:
         self.t = 0
         self.learning = True
         self.episode = 0
+        self.testing = False
 
 
 
@@ -42,13 +43,18 @@ class DQNAgent:
         return state
 
     def get_maxQ(self,state):
-        if not state in self.Q_table:
-            self.createQ(state)
-        maxQ = max(self.Q_table[state].values())
         max_act = []
-        for act,val in self.Q_table[state].items():
-            if val == maxQ:
-                max_act.append(act)
+        if self.testing:
+            if not state in self.Q_table:
+                maxQ = 0
+                max_act.append(random.choice(range(self.action_size)))
+        else:
+            if not state in self.Q_table:
+                self.createQ(state)
+            maxQ = max(self.Q_table[state].values())
+            for act, val in self.Q_table[state].items():
+                if val == maxQ:
+                    max_act.append(act)
         return maxQ, max_act
 
     def createQ(self, state):
@@ -164,13 +170,10 @@ while agent.epsilon > agent.epsilon_min:
             break
 
     agent.replay()
-# store Q_table as txt in json format
-agent.Q_table = {'Q_table': agent.Q_table}
-with open('Q_table_Q_cartpole.txt', 'w+') as Q_table_file:
-    Q_table_file.write(json.dumps(agent.Q_table))
 
 # testing trials
 print("///////////TESTING/////////")
+agent.testing = True
 agent.epsilon = 0.0
 cummulative_score = 0
 cummulative_reward = 0
@@ -213,3 +216,8 @@ for e in range(50):
             test_result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':time,'average_score':average_score,
                                     'total_reward': total_reward, 'average_reward':average_reward, 'Q_table_length' : agent.Q_table.__len__()})
             break
+
+# store Q_table as txt in json format
+agent.Q_table = {'Q_table': agent.Q_table}
+with open('Q_table_Q_cartpole.txt', 'w+') as Q_table_file:
+    Q_table_file.write(json.dumps(agent.Q_table))

@@ -103,7 +103,7 @@ scores = []
 #storing results
 result_file = open('results_Q_cartpole.txt','w')
 result_csv = open('results_Q_cartpole.csv', 'w',newline='')
-fieldnames = ['episode', 'epsilon', 'score', 'average_score', 'total_reward', 'average_reward']
+fieldnames = ['episode', 'epsilon', 'score', 'average_score', 'total_reward', 'average_reward', 'Q_table_length']
 result_writer = csv.DictWriter(result_csv, fieldnames)
 result_writer.writeheader()
 cummulative_score = 0
@@ -159,7 +159,7 @@ while agent.epsilon > agent.epsilon_min:
             result_file.write(''.join(result))
             result_writer.writerow(
                 {'episode': agent.episode, 'epsilon': agent.epsilon, 'score': time, 'average_score': average_score,
-                 'total_reward': total_reward, 'average_reward': average_reward})
+                 'total_reward': total_reward, 'average_reward': average_reward, 'Q_table_length' : agent.Q_table.__len__()})
 
             break
 
@@ -211,5 +211,5 @@ for e in range(50):
             print("episode: {}, score: {}, e: {:.2}"
                   .format(e, time, agent.epsilon))
             test_result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':time,'average_score':average_score,
-                                    'total_reward': total_reward, 'average_reward':average_reward})
+                                    'total_reward': total_reward, 'average_reward':average_reward, 'Q_table_length' : agent.Q_table.__len__()})
             break

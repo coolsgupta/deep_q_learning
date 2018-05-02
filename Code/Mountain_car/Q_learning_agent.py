@@ -98,7 +98,7 @@ env = gym.make('MountainCar-v0')
 state_size = env.observation_space.shape[0]
 action_size = env.action_space.n
 # creating file for storing results
-fieldnames = ['episode', 'epsilon', 'score', 'average_score', 'total_reward', 'average_reward']
+fieldnames = ['episode', 'epsilon', 'score', 'average_score', 'total_reward', 'average_reward', 'Q_table_length']
 result_writer = open('results_Q_learning_agent.csv', 'w', newline='')
 writer = csv.DictWriter(result_writer, fieldnames)
 writer.writeheader()
@@ -163,7 +163,7 @@ while agent.epsilon > agent.epsilon_min:
             # result = ('Episode :', str(e), ' score:', str(score), ' epsilon:', '1.0', '\n')
             writer.writerow(
                 {'episode': agent.episode, 'epsilon': agent.epsilon, 'score': score, 'average_score': average_score,
-                 'total_reward': total_reward, 'average_reward': average_reward}
+                 'total_reward': total_reward, 'average_reward': average_reward, 'Q_table_length' : agent.Q_table.__len__()}
             )
             break
     agent.replay()
@@ -217,5 +217,5 @@ for e in range(50):
             print("episode: {}, score: {}, e: {:.2}"
                   .format(e, score, agent.epsilon))
             test_result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':score,'average_score':average_score,
-                                    'total_reward': total_reward, 'average_reward':average_reward})
+                                    'total_reward': total_reward, 'average_reward':average_reward, 'Q_table_length' : agent.Q_table.__len__()})
             break

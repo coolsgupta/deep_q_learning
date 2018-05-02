@@ -173,7 +173,7 @@ for e in range(50):
             cummulative_score += score
             average_score = cummulative_score / (e+1)
             print("episode: {}/{}, score: {}, e: {:.2}"
-                  .format(e, EPISODES, score, agent.epsilon))
+                  .format(e, 50, score, agent.epsilon))
             result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':score, 'average_score':average_score,
                                     'total_reward': total_reward, 'average_reward':average_reward})
             break

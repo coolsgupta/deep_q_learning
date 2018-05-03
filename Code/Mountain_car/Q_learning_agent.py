@@ -167,9 +167,6 @@ while agent.epsilon > agent.epsilon_min:
             )
             break
     agent.replay()
-agent.Q_table = {'Q_table': agent.Q_table}
-with open('Q_table.txt', 'w+') as Q_table_file:
-    Q_table_file.write(json.dumps(agent.Q_table))
 
 print("///////////TESTING/////////")
 agent.epsilon = 0.0
@@ -219,3 +216,8 @@ for e in range(50):
             test_result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':score,'average_score':average_score,
                                     'total_reward': total_reward, 'average_reward':average_reward, 'Q_table_length' : agent.Q_table.__len__()})
             break
+
+# store Q table
+agent.Q_table = {'Q_table': agent.Q_table}
+with open('Q_table.txt', 'w+') as Q_table_file:
+    Q_table_file.write(json.dumps(agent.Q_table))

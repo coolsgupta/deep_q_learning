@@ -27,10 +27,10 @@ class DQNAgent:
     def _build_model(self):
         # Neural Net for Deep-Q learning Model
         model = Sequential()
-        model.add(Dense(64, input_dim=self.state_size, activation='sigmoid'))
-        model.add(Dense(64, activation='sigmoid'))
-        model.add(Dense(128,activation='sigmoid'))
-        model.add(Dense(256, activation='sigmoid'))
+        model.add(Dense(64, input_dim=self.state_size, activation='linear'))
+        model.add(Dense(64, activation='linear'))
+        model.add(Dense(128,activation='linear'))
+        #model.add(Dense(256, activation='linear'))
         model.add(Dense(self.action_size, activation='linear'))
         model.compile(loss='mse',
                       optimizer=Adam(lr=self.learning_rate))
@@ -57,6 +57,37 @@ class DQNAgent:
             self.model.fit(state, target_f, epochs=1, verbose=0, callbacks=[agent.checkpointer])
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
+
+    def get_reward(self, state, action, next_state):
+        if action == 0:
+            if (state[0][1] > 0):
+                return -1
+
+            elif (state[0][1] == 0):
+                if (next_state[0][0] < state[0][0]):
+                    return 1
+                else :
+                    return -1
+            elif (state[0][1] < 0):
+                return 1
+
+        elif action == 1:
+            if (state[0][1] == 0):
+                return 1
+            else:
+                return -1
+
+        elif action == 2:
+            if (state[0][1] > 0):
+                return 1
+
+            elif (state[0][1] == 0):
+                if (next_state[0][0] > state[0][0]):
+                    return 1
+                else:
+                    return -1
+            elif (state[0][1] < 0):
+                return -1
 
     def load(self, name):
         self.model.load_weights(name)
@@ -108,7 +139,8 @@ for e in range(EPISODES):
         score = next_state[0][0] if next_state[0][0]>score else score
 
         # Remember the previous state, action, reward, and done
-        agent.remember(state, action, next_state[0][0], next_state, done)
+        created_reward = agent.get_reward(state, action, next_state)
+        agent.remember(state, action, created_reward, next_state, done)
 
         # make next_state the new current state for the next frame.
         state = next_state
@@ -121,10 +153,10 @@ for e in range(EPISODES):
             average_reward = cummulative_reward/(e+1)
             cummulative_score += score
             average_score = cummulative_score/(e+1)
-            print("episode: {}/{}, score: {}, e: {:.2}"
+            print("episode: {}/{}, score: {:.5}, e: {:.2}"
                   .format(e, EPISODES, score, agent.epsilon))
-            result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':score, 'average_score':average_score,
-                                    'total_reward': total_reward, 'average_reward':average_reward})
+            result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':round(score,5), 'average_score':round(average_score,5),
+                                    'total_reward':total_reward, 'average_reward':average_reward})
             break
 
     if len(agent.memory) > batch_size:
@@ -160,6 +192,7 @@ for e in range(50):
         reward = reward if not done else -10
         total_reward += reward
         next_state = np.reshape(next_state, [1, state_size])
+        score = next_state[0][0] if next_state[0][0] > score else score
 
         # make next_state the new current state for the next frame.
         state = next_state
@@ -172,8 +205,8 @@ for e in range(50):
             average_reward = cummulative_reward / (e+1)
             cummulative_score += score
             average_score = cummulative_score / (e+1)
-            print("episode: {}/{}, score: {}, e: {:.2}"
+            print("episode: {}/{}, score: {:.5}, e: {:.2}"
                   .format(e, 50, score, agent.epsilon))
-            result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':score, 'average_score':average_score,
+            result_writer.writerow({'episode':e, 'epsilon':agent.epsilon, 'score':round(score,5), 'average_score':round(average_score,5),
                                     'total_reward': total_reward, 'average_reward':average_reward})
             break

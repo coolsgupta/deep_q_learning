@@ -1,8 +1,8 @@
 # deep_q_learning
 
 ## Requirements: 
-python 3.5+
-openAi.gym (pip install gym)
+1. python 3.5+
+2. openAi.gym (pip install gym)
 
 ## project Structure
 ### Code 
